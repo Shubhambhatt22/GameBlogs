@@ -15,7 +15,7 @@ const blogSchema = new schema({
         type: String,
         required: true
     }
-})
+}, { timestamps: true })
 
 const Blog = mongoose.model('Blog', blogSchema)
 

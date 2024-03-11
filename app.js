@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const Blog = require('./models/blog')
 
 const app = express()
 
@@ -11,20 +12,60 @@ mongoose.connect("mongodb+srv://shubhbhatt101:Shubham123@cluster0.x4lra5n.mongod
     console.log("connected to db")
   })
   .catch((error) => {
-    console.log('error connecting to database',error)
+    console.log('error connecting to database', error)
   })
 
 
 
 app.get('/', (req, res) => {
-  const blogs = [
-    { title: "Fallout 4", snippet: 'lorem impsum dipsum lorem impsum dipsum' },
-    { title: "Metro Exodus", snippet: 'lorem impsum dipsum lorem impsum dipsum' },
-    { title: "Disohnered 2", snippet: 'lorem impsum dipsum lorem impsum dipsum' },
-    { title: "Far Cry 5", snippet: 'lorem impsum dipsum lorem impsum dipsum' },
-  ]
-  res.render("home", { title: 'Home', blogs })
+  res.redirect('blogs')
 })
+
+app.get('/blogs',(req,res)=>{
+ Blog.find()
+ .then((result)=>{
+  res.render('home', {title:'Home', blogs:result})
+ })
+})
+
+// app.get('/all-blogs', (req, res) => {
+//   Blog.find()
+//     .then((result) => {
+//       res.send(result)
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//     })
+// })
+
+// app.get('/single-blog', (req, res) => {
+//   Blog.findById("65ef0034268359ff60124112")
+//     .then((result) => {
+//       res.send(result)
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//     })
+// })
+
+app.get('/add-blog', (req, res) => {
+  const blog = new Blog({
+    title: 'Dishonered 2',
+    snippet: 'Embark on a stealthy journey through the captivating world of Dishonored 2.',
+    body: ` Dishonored 2, developed by Arkane Studios, is a stealth-action adventure game that continues the tale
+    of the supernatural assassin Corvo Attano. Set in the city of Karnaca, players can also choose to play
+    as Emily Kaldwin, the rightful heir to the throne. Released in 2016, the game offers a rich narrative,
+    intricate level design, and a variety of gameplay choices.`
+  })
+  blog.save()
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
 app.get('/about', (req, res) => {
   res.render('about', { title: 'About' })
 })

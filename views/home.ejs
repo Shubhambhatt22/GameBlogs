@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <%- include('./partials/head') %>
-<body>
+<%- include('./partials/head') %>
+
+  <body>
     <%- include('./partials/nav') %>
-    <h1>Home Page</h1>
-    <% if(blogs.length>0){ %>
-    <% blogs.map((blog)=>{ %>
-      <h2><%= blog.title %></h2>
-      <h3><%= blog.snippet %></h3>
-   <% }) %> 
-   <% } else{ %>
-    <h2>Blogs not available</h2>
-    <% } %>
-</body>
+      <h1>Home Page</h1>
+      <% if(blogs.length>0){ %>
+        <% blogs.map((blog)=>{ %>
+          <h2>
+            <%= blog.title %>
+          </h2>
+          <h3>
+            <%= blog.snippet %>
+          </h3>
+          <h4>
+            <%= blog.body %>
+          </h4>
+          <% }) %>
+            <% } else{ %>
+              <h2>Blogs not available</h2>
+              <% } %>
+  </body>
+
 </html>
