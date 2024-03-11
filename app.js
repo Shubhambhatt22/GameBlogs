@@ -15,6 +15,8 @@ mongoose.connect("mongodb+srv://shubhbhatt101:Shubham123@cluster0.x4lra5n.mongod
     console.log('error connecting to database', error)
   })
 
+  app.use(express.static('public'))
+
 
 
 app.get('/', (req, res) => {

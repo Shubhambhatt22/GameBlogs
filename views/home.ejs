@@ -4,22 +4,33 @@
 
   <body>
     <%- include('./partials/nav') %>
-      <h1>Home Page</h1>
-      <% if(blogs.length>0){ %>
-        <% blogs.map((blog)=>{ %>
-          <h2>
-            <%= blog.title %>
-          </h2>
-          <h3>
-            <%= blog.snippet %>
-          </h3>
-          <h4>
-            <%= blog.body %>
-          </h4>
-          <% }) %>
-            <% } else{ %>
-              <h2>Blogs not available</h2>
-              <% } %>
+      <div class="container">
+        <h1>Home Page</h1>
+        <% if(blogs.length> 0){ %>
+          <% blogs.forEach((blog)=> { %>
+            <div class="blog-card">
+              <img src="<%= blog.imageUrl %>" alt="<%= blog.title %> Image">
+              <div class="blog-card-content">
+                <h2>
+                  <%= blog.title %>
+                </h2>
+                <h3>
+                  <%= blog.snippet %>
+                </h3>
+                <p>
+                  <%= blog.body %>
+                </p>
+              </div>
+            </div>
+            <% }) %>
+              <% } else{ %>
+                <h2>Blogs not available</h2>
+                <% } %>
+      </div>
+
+      <footer>
+        <% include('./partials/footer') %>
+      </footer>
   </body>
 
 </html>
