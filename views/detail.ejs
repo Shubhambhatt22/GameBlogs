@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/head') %>
+
+    <body>
+        <%- include('./partials/nav') %>
+            <div class="container">
+                <!-- <h1>Detail</h1> -->
+                <div>
+                    <h1>
+                        <%= blog.title %>
+                    </h1>
+                    <p>
+                        <%= blog.body %>
+                    </p>
+                </div>
+            </div>
+
+            <a class="delete" data-id="<%= blog._id %>"> Delete</a>
+
+            <footer>
+                <% include('./partials/footer') %>
+            </footer>
+    </body>
+     <script>
+        const container = document.querySelector('a.delete')
+
+        container.addEventListener('click', (e) => {
+            const url = `/blogs/${container.dataset.id}`;
+            fetch(url, { method: 'DELETE' })
+                .then((response) => response.json())
+                .then((data) => window.location.href = data.redirect)
+                .catch((error) => console.log(error))
+
+            // const fetching = async () => {
+            //     try {
+            //         const response = await fetch(url)
+            //         const data = response.json()
+            //         window.location.href = data.redirect
+            //     } catch (error) {
+            //         console.log(error)
+            //     }
+            // }
+
+
+        })
+    </script>
+
+</html>

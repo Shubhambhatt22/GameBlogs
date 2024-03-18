@@ -8,20 +8,19 @@
         <h1>Home Page</h1>
         <% if(blogs.length> 0){ %>
           <% blogs.forEach((blog)=> { %>
-            <div class="blog-card">
-              <img src="<%= blog.imageUrl %>" alt="<%= blog.title %> Image">
-              <div class="blog-card-content">
-                <h2>
-                  <%= blog.title %>
-                </h2>
-                <h3>
-                  <%= blog.snippet %>
-                </h3>
-                <p>
-                  <%= blog.body %>
-                </p>
+            <a href="/blogs/<%=blog._id%>">
+              <div class="blog-card">
+                <img src="<%= blog.imageUrl %>" alt="<%= blog.title %> Image">
+                <div class="blog-card-content">
+                  <h2>
+                    <%= blog.title %>
+                  </h2>
+                  <h3>
+                    <%= blog.snippet %>
+                  </h3>
+                </div>
               </div>
-            </div>
+            </a>
             <% }) %>
               <% } else{ %>
                 <h2>Blogs not available</h2>

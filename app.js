@@ -15,56 +15,18 @@ mongoose.connect("mongodb+srv://shubhbhatt101:Shubham123@cluster0.x4lra5n.mongod
     console.log('error connecting to database', error)
   })
 
-  app.use(express.static('public'))
-
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
 
 
 app.get('/', (req, res) => {
   res.redirect('blogs')
 })
 
-app.get('/blogs',(req,res)=>{
- Blog.find()
- .then((result)=>{
-  res.render('home', {title:'Home', blogs:result})
- })
-})
-
-// app.get('/all-blogs', (req, res) => {
-//   Blog.find()
-//     .then((result) => {
-//       res.send(result)
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//     })
-// })
-
-// app.get('/single-blog', (req, res) => {
-//   Blog.findById("65ef0034268359ff60124112")
-//     .then((result) => {
-//       res.send(result)
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//     })
-// })
-
-app.get('/add-blog', (req, res) => {
-  const blog = new Blog({
-    title: 'Dishonered 2',
-    snippet: 'Embark on a stealthy journey through the captivating world of Dishonored 2.',
-    body: ` Dishonored 2, developed by Arkane Studios, is a stealth-action adventure game that continues the tale
-    of the supernatural assassin Corvo Attano. Set in the city of Karnaca, players can also choose to play
-    as Emily Kaldwin, the rightful heir to the throne. Released in 2016, the game offers a rich narrative,
-    intricate level design, and a variety of gameplay choices.`
-  })
-  blog.save()
+app.get('/blogs', (req, res) => {
+  Blog.find().sort({ createdAt: -1 })
     .then((result) => {
-      res.send(result)
-    })
-    .catch((error) => {
-      console.log(error)
+      res.render('home', { title: 'Home', blogs: result })
     })
 })
 
@@ -72,11 +34,48 @@ app.get('/about', (req, res) => {
   res.render('about', { title: 'About' })
 })
 
-
-app.get('/about/form', (req, res) => {
-  res.render('form')
+app.get('/create', (req, res) => {
+  res.render('create', { title: 'Form' })
 })
 
+app.post('/add-blog', (req, res) => {
+
+  if (!req.body) {
+    console.log('Data is empty')
+  }
+  else {
+    const blog = new Blog(req.body)
+    blog.save()
+      .then((result) => {
+        res.redirect('blogs')
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+})
+
+app.get('/blogs/:id', (req, res) => {
+  const id = req.params.id;
+
+  Blog.findById(id)
+    .then((result) => {
+      res.render('detail', { title: 'Blog detail', blog: result })
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
+app.delete('/blogs/:id', (req, res) => {
+  const id = req.params.id
+  console.log(id)
+  Blog.findByIdAndDelete(id)
+    .then((result) => {
+      res.json({ redirect: '/blogs' })
+    })
+    .catch((error) => console.log(error))
+})
 
 // this was without using template engine such as ejs
 // app.get('/aboutMe', (req,res)=>{
